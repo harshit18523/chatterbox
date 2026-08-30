@@ -48,7 +48,7 @@ export default function Dashboard() {
     }
     const fetchHistory = async () => {
       try {
-        const res = await api.get(`/room/${activeRoom.id}`);
+        const res = await api.get(`/room/messages/${activeRoom.id}`);
         setMessages(res.data);
       } catch (error) {
         console.error("Failed to load chat history", error);

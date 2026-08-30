@@ -1,7 +1,7 @@
 import { create } from "axios";
 
 const api = create({
-  baseURL: import.meta.env.VITE_API_URL
+  baseURL: import.meta.env.VITE_API_BASEURL
 });
 
 api.interceptors.request.use((config) => {

@@ -46,4 +46,15 @@ const getRoomMessages = asyncHandler(async (req: AuthRequest, res: Response) => 
   res.status(200).json(messages);
 });
 
-export { createRoom, getRoomMessages };
+const getRoomDetails = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const { roomId } = req.params;
+  const room = await Room.findById(roomId).populate("members", "username _id");
+  if (!room) {
+    return res.status(404).json({
+      error: "room not found"
+    });
+  }
+  res.status(200).json(room);
+});
+
+export { createRoom, getRoomMessages, getRoomDetails };

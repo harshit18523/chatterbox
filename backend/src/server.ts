@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import cors from "cors";
+import { connect } from "mongoose";
 import { createServer } from "http";
 import initializeSocket from "./socket/index.js";
 import authRouter from "./routes/authRoute.js";
@@ -11,6 +12,13 @@ import searchRouter from "./routes/searchRoute.js";
 const app = express();
 const httpServer = createServer(app);
 initializeSocket(httpServer);
+
+try {
+  const conn = await connect(process.env.MONGODB_URI as string);
+  console.log("Connected to mongodb", conn.connection.host);
+} catch (error) {
+  console.error("Couldn't connect to mongodb");
+}
 
 app.use(cors({
   origin: process.env.FRONTEND_URL
