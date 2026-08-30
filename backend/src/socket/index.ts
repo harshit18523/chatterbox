@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io";
-import { verify } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { Server as HttpServer} from "http";
 import registerEventHandlers from "./handler.js";
 
@@ -22,7 +22,7 @@ export default function initializeSocket(httpServer: HttpServer) {
       return next(new Error("authentication error: token missing"));
     }
     try {
-      const decoded = verify(token, process.env.JWT_SECRET as string) as {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
         userId: string;
         username: string;
       };
