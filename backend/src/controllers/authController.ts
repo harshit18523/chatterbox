@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { genSalt, hash, compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
-import asyncHandler from "../utils/asyncHandler";
-import User from "../models/userModel";
+import asyncHandler from "../utils/asyncHandler.js";
+import User from "../models/userModel.js";
 
 const register = asyncHandler(async (req: Request, res: Response) => {
   const { username, password } = req.body;

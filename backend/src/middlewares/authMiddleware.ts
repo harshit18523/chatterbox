@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
 import { verify } from "jsonwebtoken";
 
 export interface AuthRequest extends Request {
@@ -17,7 +17,7 @@ export default function verifyToken(req: AuthRequest, res: Response, next: NextF
   }
   const token = authHeader.split(" ")[1];
   try {
-    const decoded = verify(token, process.env.JWT_SECRET as string) as {
+    const decoded = verify(token as string, process.env.JWT_SECRET as string) as {
       userId: string;
       username: string;
     };
