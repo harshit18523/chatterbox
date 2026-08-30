@@ -2,9 +2,10 @@ import type { Response } from "express";
 import { randomBytes } from "crypto";
 import type { AuthRequest } from "../middlewares/authMiddleware.js";
 import Room from "../models/roomModel.js";
+import Message from "../models/messageModel.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
-export const createRoom = asyncHandler(async (req: AuthRequest, res: Response) => {
+const createRoom = asyncHandler(async (req: AuthRequest, res: Response) => {
   const { name, isPrivate } = req.body;
   const userId = req.user?.userId;
   const existingRoom = await Room.findOne({ name });
@@ -35,3 +36,14 @@ export const createRoom = asyncHandler(async (req: AuthRequest, res: Response) =
     }
   });
 });
+
+const getRoomMessages = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const { roomId } = req.params;
+  const messages = await Message.find({
+    room: roomId!,
+    chatType: "room"
+  }).sort({ createdAt: 1 }).populate("sender", "username").limit(100);
+  res.status(200).json(messages);
+});
+
+export { createRoom, getRoomMessages };
